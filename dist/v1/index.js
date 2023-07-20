@@ -24,14 +24,7 @@ const app = (0, express_1.default)();
 app.get("/v1/get_states", (_, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(states_1.usStates); }));
 const base_url = "https://us-zipcodes.onrender.com";
 app.get("/v1/get_cites", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // Object.values(codes1).map((codeInfo) => cities.push(codeInfo.city));
-    // Object.values(codes2).map((codeInfo) => cities.push(codeInfo.city));
-    // Object.values(codes3).map((codeInfo) => cities.push(codeInfo.city));
-    // Object.values(codes4).map((codeInfo) => cities.push(codeInfo.city));
-    // Object.values(codes5).map((codeInfo) => cities.push(codeInfo.city));
-    // console.log("app.get ~ cities:", cities.length);
-    // const uniqueCities: string[] = Array.from(new Set(cities));
-    // console.log("app.get ~ uniqueCities:", uniqueCities.length);
+    console.log("app.get ~ url:", req.url);
     const new_url = base_url + req.url;
     console.log("app.get ~ new_url:", new_url);
     const req_url = new URL(base_url + req.url);

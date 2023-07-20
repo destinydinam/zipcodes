@@ -16,17 +16,7 @@ app.get("/v1/get_states", async (_, res: Response) =>
 const base_url = "https://us-zipcodes.onrender.com";
 
 app.get("/v1/get_cites", async (req: Request, res: Response) => {
-  // Object.values(codes1).map((codeInfo) => cities.push(codeInfo.city));
-  // Object.values(codes2).map((codeInfo) => cities.push(codeInfo.city));
-  // Object.values(codes3).map((codeInfo) => cities.push(codeInfo.city));
-  // Object.values(codes4).map((codeInfo) => cities.push(codeInfo.city));
-  // Object.values(codes5).map((codeInfo) => cities.push(codeInfo.city));
-
-  // console.log("app.get ~ cities:", cities.length);
-
-  // const uniqueCities: string[] = Array.from(new Set(cities));
-
-  // console.log("app.get ~ uniqueCities:", uniqueCities.length);
+  console.log("app.get ~ url:", req.url);
   const new_url = base_url + req.url;
   console.log("app.get ~ new_url:", new_url);
   const req_url = new URL(base_url + req.url);
