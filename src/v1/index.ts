@@ -16,11 +16,7 @@ app.get("/v1/get_states", async (_, res: Response) =>
 const base_url = "https://us-zipcodes.onrender.com";
 
 app.get("/v1/get_cites", async (req: Request, res: Response) => {
-  console.log("app.get ~ url:", req.url);
-  const new_url = base_url + req.url;
-  console.log("app.get ~ new_url:", new_url);
   const req_url = new URL(base_url + req.url);
-  console.log("app.get ~ req_url:", req_url);
 
   if (!req_url.search)
     return res.status(400).json({ message: "No Keyword Provided" });
@@ -28,13 +24,11 @@ app.get("/v1/get_cites", async (req: Request, res: Response) => {
   const params: { [x: string]: string }[] = [];
   req_url.searchParams.forEach((val, key) => params.push({ [key]: val }));
   const keyword = params[0].keyword;
-  console.log("app.get ~ keyword:", keyword);
 
   if (keyword && keyword.length > 2) {
     const new_cities = cities.filter((c) =>
       c.toLowerCase().includes(keyword.toLowerCase())
     );
-    console.log("app.get ~ new_cities:", new_cities.length);
 
     return res.status(200).json(new_cities);
   } else
@@ -46,7 +40,7 @@ app.get("/v1/get_cites", async (req: Request, res: Response) => {
 // {{base_url}}/v1/get_zipcodeinfo?zipcode=00903
 
 app.get("/v1/get_zipcodeinfo", async function (req: Request, res: Response) {
-  const req_url = new URL(req.rawHeaders[1] + req.url);
+  const req_url = new URL(base_url + req.url);
 
   if (!req_url.search)
     return res.status(400).json({ message: "Invalid Zipcode" });
