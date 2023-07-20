@@ -27,6 +27,7 @@ app.get("/v1/get_cites", async (req: Request, res: Response) => {
   // console.log("app.get ~ uniqueCities:", uniqueCities.length);
 
   const req_url = new URL(req.rawHeaders[1] + req.url);
+  console.log("app.get ~ req_url:", req_url);
 
   if (!req_url.search)
     return res.status(400).json({ message: "No Keyword Provided" });
@@ -34,11 +35,13 @@ app.get("/v1/get_cites", async (req: Request, res: Response) => {
   const params: { [x: string]: string }[] = [];
   req_url.searchParams.forEach((val, key) => params.push({ [key]: val }));
   const keyword = params[0].keyword;
+  console.log("app.get ~ keyword:", keyword);
 
   if (keyword && keyword.length > 2) {
     const new_cities = cities.filter((c) =>
       c.toLowerCase().includes(keyword.toLowerCase())
     );
+    console.log("app.get ~ new_cities:", new_cities.length);
 
     return res.status(200).json(new_cities);
   } else
