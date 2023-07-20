@@ -32,6 +32,8 @@ app.get("/v1/get_cites", (req, res) => __awaiter(void 0, void 0, void 0, functio
     // console.log("app.get ~ cities:", cities.length);
     // const uniqueCities: string[] = Array.from(new Set(cities));
     // console.log("app.get ~ uniqueCities:", uniqueCities.length);
+    const new_url = base_url + req.url;
+    console.log("app.get ~ new_url:", new_url);
     const req_url = new URL(base_url + req.url);
     console.log("app.get ~ req_url:", req_url);
     if (!req_url.search)
