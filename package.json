@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -p tsconfig.json",
-    "start": "ts-node src/v1/index.ts"
+    "dev": "ts-node src/v1/index.ts",
+    "start": "node dist/v1/index/js"
   },
   "keywords": [],
   "author": "",
