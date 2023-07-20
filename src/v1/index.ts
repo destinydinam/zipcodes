@@ -6,8 +6,10 @@ import { codes4 } from "../models/codes4";
 import { codes5 } from "../models/codes5";
 import { usStates } from "../models/states";
 import { cities } from "../models/cities";
-
+import cors from "cors";
 const app = express();
+
+app.use(cors());
 
 app.get("/v1/get_states", async (_, res: Response) =>
   res.status(200).json(usStates)

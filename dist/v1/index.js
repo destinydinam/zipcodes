@@ -20,7 +20,9 @@ const codes4_1 = require("../models/codes4");
 const codes5_1 = require("../models/codes5");
 const states_1 = require("../models/states");
 const cities_1 = require("../models/cities");
+const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
+app.use((0, cors_1.default)());
 app.get("/v1/get_states", (_, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(states_1.usStates); }));
 const base_url = "https://us-zipcodes.onrender.com";
 app.get("/v1/get_cites", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
