@@ -26,11 +26,17 @@ app.get("/v1/get_cites", async (req: Request, res: Response) => {
   const params: { [x: string]: string }[] = [];
   req_url.searchParams.forEach((val, key) => params.push({ [key]: val }));
   const keyword = params[0].keyword;
+  console.log("app.get ~ keyword:", keyword);
 
   if (keyword && keyword.length > 2) {
     const new_cities = cities.filter((c) =>
-      c.toLowerCase().includes(keyword.toLowerCase())
+      c
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .includes(keyword.toLowerCase().replace(/\s+/g, ""))
     );
+
+    console.log("app.get ~ new_cities:", new_cities.length);
 
     return res.status(200).json(new_cities);
   } else
@@ -96,3 +102,5 @@ app.get("/v1/get_zipcodeinfo", async function (req: Request, res: Response) {
 });
 
 app.listen(process.env.PORT || 42069, () => console.log("Server started"));
+// https://raw.githubusercontent.com/davglass/zipcodes/master/lib/codes.js
+// https://github.com/search?q=zip%20codes%20us%20with%20cities&type=repositories
