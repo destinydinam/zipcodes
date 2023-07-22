@@ -7,6 +7,7 @@ import { codes5 } from "../models/codes5";
 import { usStates } from "../models/states";
 import { cities } from "../models/cities";
 import cors from "cors";
+import { cities_with_states } from "../models/cities_with_states";
 const app = express();
 
 app.use(cors());
@@ -26,7 +27,7 @@ app.get("/v1/get_cites", async (req: Request, res: Response) => {
   const params: { [x: string]: string }[] = [];
   req_url.searchParams.forEach((val, key) => params.push({ [key]: val }));
   const keyword = params[0].keyword;
-  console.log("app.get ~ keyword:", keyword);
+  // console.log("app.get ~ keyword:", keyword);
 
   if (keyword && keyword.length > 2) {
     const new_cities = cities.filter((c) =>
@@ -36,13 +37,30 @@ app.get("/v1/get_cites", async (req: Request, res: Response) => {
         .includes(keyword.toLowerCase().replace(/\s+/g, ""))
     );
 
-    console.log("app.get ~ new_cities:", new_cities.length);
+    // console.log("app.get ~ new_cities:", new_cities.length);
 
     return res.status(200).json(new_cities);
   } else
     return res.status(400).json({
       message: "Invalid Keyword, Keyword must be more than 2 characters",
     });
+});
+
+app.get("/v1/get_cites_by_state", async (req: Request, res: Response) => {
+  const req_url = new URL(base_url + req.url);
+
+  if (!req_url.search)
+    return res.status(400).json({ message: "No State Provided" });
+
+  const params: { [x: string]: string }[] = [];
+  req_url.searchParams.forEach((val, key) => params.push({ [key]: val }));
+  const state = params[0].state;
+
+  if (state && state !== "state") {
+    const new_cities = cities_with_states.filter((c) => c.state === state);
+
+    return res.status(200).json(new_cities);
+  } else return res.status(400).json({ message: "Invalid State" });
 });
 
 // {{base_url}}/v1/get_zipcodeinfo?zipcode=00903
