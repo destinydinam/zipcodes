@@ -21,6 +21,7 @@ const codes5_1 = require("../models/codes5");
 const states_1 = require("../models/states");
 const cities_1 = require("../models/cities");
 const cors_1 = __importDefault(require("cors"));
+const cities_with_states_1 = require("../models/cities_with_states");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.get("/v1/get_states", (_, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(states_1.usStates); }));
@@ -32,14 +33,33 @@ app.get("/v1/get_cites", (req, res) => __awaiter(void 0, void 0, void 0, functio
     const params = [];
     req_url.searchParams.forEach((val, key) => params.push({ [key]: val }));
     const keyword = params[0].keyword;
+    // console.log("app.get ~ keyword:", keyword);
     if (keyword && keyword.length > 2) {
-        const new_cities = cities_1.cities.filter((c) => c.toLowerCase().includes(keyword.toLowerCase()));
+        const new_cities = cities_1.cities.filter((c) => c
+            .toLowerCase()
+            .replace(/\s+/g, "")
+            .includes(keyword.toLowerCase().replace(/\s+/g, "")));
+        // console.log("app.get ~ new_cities:", new_cities.length);
         return res.status(200).json(new_cities);
     }
     else
         return res.status(400).json({
             message: "Invalid Keyword, Keyword must be more than 2 characters",
         });
+}));
+app.get("/v1/get_cites_by_state", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const req_url = new URL(base_url + req.url);
+    if (!req_url.search)
+        return res.status(400).json({ message: "No State Provided" });
+    const params = [];
+    req_url.searchParams.forEach((val, key) => params.push({ [key]: val }));
+    const state = params[0].state;
+    if (state && state !== "state") {
+        const new_cities = cities_with_states_1.cities_with_states.filter((c) => c.state === state);
+        return res.status(200).json(new_cities);
+    }
+    else
+        return res.status(400).json({ message: "Invalid State" });
 }));
 // {{base_url}}/v1/get_zipcodeinfo?zipcode=00903
 app.get("/v1/get_zipcodeinfo", function (req, res) {
@@ -88,4 +108,6 @@ app.get("/v1/get_zipcodeinfo", function (req, res) {
     });
 });
 app.listen(process.env.PORT || 42069, () => console.log("Server started"));
+// https://raw.githubusercontent.com/davglass/zipcodes/master/lib/codes.js
+// https://github.com/search?q=zip%20codes%20us%20with%20cities&type=repositories
 //# sourceMappingURL=index.js.map
