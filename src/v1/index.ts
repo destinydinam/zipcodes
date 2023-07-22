@@ -57,7 +57,9 @@ app.get("/v1/get_cites_by_state", async (req: Request, res: Response) => {
   const state = params[0].state;
 
   if (state && state !== "state") {
-    const new_cities = cities_with_states.filter((c) => c.state === state);
+    const new_cities = cities_with_states
+      .filter((c) => c.state === state)
+      .map((c) => c.city);
 
     return res.status(200).json(new_cities);
   } else return res.status(400).json({ message: "Invalid State" });

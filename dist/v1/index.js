@@ -55,7 +55,9 @@ app.get("/v1/get_cites_by_state", (req, res) => __awaiter(void 0, void 0, void 0
     req_url.searchParams.forEach((val, key) => params.push({ [key]: val }));
     const state = params[0].state;
     if (state && state !== "state") {
-        const new_cities = cities_with_states_1.cities_with_states.filter((c) => c.state === state);
+        const new_cities = cities_with_states_1.cities_with_states
+            .filter((c) => c.state === state)
+            .map((c) => c.city);
         return res.status(200).json(new_cities);
     }
     else
