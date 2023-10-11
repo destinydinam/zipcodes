@@ -22,6 +22,7 @@ const states_1 = require("../models/states");
 const cities_1 = require("../models/cities");
 const cors_1 = __importDefault(require("cors"));
 const cities_with_states_1 = require("../models/cities_with_states");
+const allZipInfo_1 = require("../models/allZipInfo");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.get("/v1/get_states", (_, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(states_1.usStates); }));
@@ -63,6 +64,41 @@ app.get("/v1/get_cites_by_state", (req, res) => __awaiter(void 0, void 0, void 0
     }
     else
         return res.status(400).json({ message: "Invalid State" });
+}));
+app.get("/v1/get_states_by_city", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const req_url = new URL(base_url + req.url);
+    if (!req_url.search)
+        return res.status(400).json({ message: "No City Provided" });
+    const params = [];
+    req_url.searchParams.forEach((val, key) => params.push({ [key]: val }));
+    const city = params[0].city;
+    if (city && city !== "city") {
+        const new_cities = cities_with_states_1.cities_with_states
+            .filter((c) => c.city === city)
+            .map((c) => c.state);
+        return res.status(200).json(new_cities);
+    }
+    else
+        return res.status(400).json({ message: "Invalid City" });
+}));
+app.get("/v1/get_zipcodes_by_city", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const req_url = new URL(base_url + req.url);
+    if (!req_url.search)
+        return res.status(400).json({ message: "No City Provided" });
+    const params = [];
+    req_url.searchParams.forEach((val, key) => params.push({ [key]: val }));
+    const city = params[0].city;
+    if (city && city !== "city") {
+        const zipcodes = [];
+        for (let i = 0; i < allZipInfo_1.all_zipcodes.length; i++) {
+            const zip = allZipInfo_1.all_zipcodes[i];
+            if (zip.city === city)
+                zipcodes.push(zip.zip);
+        }
+        return res.status(200).json(zipcodes);
+    }
+    else
+        return res.status(400).json({ message: "Invalid City" });
 }));
 // {{base_url}}/v1/get_zipcodeinfo?zipcode=00903
 app.get("/v1/get_zipcodeinfo", function (req, res) {
