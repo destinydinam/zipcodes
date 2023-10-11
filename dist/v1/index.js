@@ -104,6 +104,21 @@ app.get("/v1/get_zipcodes_by_city", (req, res) => __awaiter(void 0, void 0, void
     else
         return res.status(400).json({ message: "Invalid City" });
 }));
+app.get("/v1/verify_city_state_zip", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const req_url = new URL(base_url + req.url);
+    if (!req_url.search)
+        return res.status(400).json({ message: "No Details Provided" });
+    const params = {};
+    req_url.searchParams.forEach((val, key) => (params[key] = val));
+    const { city, state, zip } = params;
+    if (city && state && zip) {
+        return res.status(200).json({
+            status: !!allZipInfo_1.all_zipcodes.find((i) => i.city === city && i.state === state && i.zip === zip),
+        });
+    }
+    else
+        return res.status(400).json({ message: "Invalid Details" });
+}));
 // {{base_url}}/v1/get_zipcodeinfo?zipcode=00903
 app.get("/v1/get_zipcodeinfo", function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
