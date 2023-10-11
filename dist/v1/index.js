@@ -26,6 +26,7 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.get("/v1/get_states", (_, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(states_1.usStates); }));
 const base_url = "https://us-zipcodes.onrender.com";
+app.get("/v1/get_all_cities", (_, res) => __awaiter(void 0, void 0, void 0, function* () { return res.status(200).json(cities_1.cities); }));
 app.get("/v1/get_cites", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const req_url = new URL(base_url + req.url);
     if (!req_url.search)

@@ -18,6 +18,10 @@ app.get("/v1/get_states", async (_, res: Response) =>
 
 const base_url = "https://us-zipcodes.onrender.com";
 
+app.get("/v1/get_all_cities", async (_, res: Response) =>
+  res.status(200).json(cities)
+);
+
 app.get("/v1/get_cites", async (req: Request, res: Response) => {
   const req_url = new URL(base_url + req.url);
 
