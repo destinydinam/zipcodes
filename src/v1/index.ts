@@ -4,7 +4,7 @@ import { codes2 } from "../models/codes2";
 import { codes3 } from "../models/codes3";
 import { codes4 } from "../models/codes4";
 import { codes5 } from "../models/codes5";
-import { usStates } from "../models/states";
+import { usStates, usStatesObj } from "../models/states";
 import { cities } from "../models/cities";
 import cors from "cors";
 import { cities_with_states } from "../models/cities_with_states";
@@ -83,7 +83,10 @@ app.get("/v1/get_states_by_city", async (req: Request, res: Response) => {
   if (city && city !== "city") {
     const new_cities = cities_with_states
       .filter((c) => c.city === city)
-      .map((c) => c.state);
+      .map((c) => {
+        const state = usStatesObj[c.state];
+        return { name: state?.name, id: state?.abbr };
+      });
 
     return res.status(200).json(new_cities);
   } else return res.status(400).json({ message: "Invalid City" });
