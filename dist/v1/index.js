@@ -75,10 +75,11 @@ app.get("/v1/get_states_by_city", (req, res) => __awaiter(void 0, void 0, void 0
     if (city && city !== "city") {
         const new_cities = cities_with_states_1.cities_with_states
             .filter((c) => c.city === city)
-            .map((c) => {
-            const state = states_1.usStatesObj[c.state];
-            return { name: state === null || state === void 0 ? void 0 : state.name, id: state === null || state === void 0 ? void 0 : state.abbr };
-        });
+            .map((c) => c.state);
+        // .map((c) => {
+        //   const state = usStatesObj[c.state];
+        //   return { name: state?.name, id: state?.abbr };
+        // });
         return res.status(200).json(new_cities);
     }
     else

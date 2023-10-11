@@ -83,10 +83,11 @@ app.get("/v1/get_states_by_city", async (req: Request, res: Response) => {
   if (city && city !== "city") {
     const new_cities = cities_with_states
       .filter((c) => c.city === city)
-      .map((c) => {
-        const state = usStatesObj[c.state];
-        return { name: state?.name, id: state?.abbr };
-      });
+      .map((c) => c.state);
+    // .map((c) => {
+    //   const state = usStatesObj[c.state];
+    //   return { name: state?.name, id: state?.abbr };
+    // });
 
     return res.status(200).json(new_cities);
   } else return res.status(400).json({ message: "Invalid City" });
